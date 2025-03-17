@@ -2,36 +2,36 @@
 
 ## users テーブル
 
-|Column                 | Type   | Options             |
-| --------------------- | ------ | ------------------- |
-| email                 | string | NOT NULL,ユニーク制約 |
-| encrypted_password    | string | NOT NULL            |
-| nickname              | string | NOT NULL            |
-| last_name             | string | NOT NULL            |
-| first_name            | string | NOT NULL            |
-| last_name_kana        | string | NOT NULL            |
-| first_name_kana       | string | NOT NULL            |
-| birth_date            | date   | NOT NULL            |
+|Column                 | Type   | Options                |
+| --------------------- | ------ | ---------------------- |
+| email                 | string | null: false,ユニーク制約 |
+| encrypted_password    | string | null: false            |
+| nickname              | string | null: false,ユニーク制約 |
+| last_name             | string | null: false            |
+| first_name            | string | null: false            |
+| last_name_kana        | string | null: false            |
+| first_name_kana       | string | null: false            |
+| birth_date            | date   | null: false            |
 
 ### Association
 
-- has_many :item
-- has_many :order
+- has_many :items
+- has_many :orders
 
 
 ## items テーブル
 
 |Column                 | Type       | Options             |
 | --------------------- | ---------- | ------------------- |
-| name                  | string     | NOT NULL            |
-| description           | text       | NOT NULL            |
-| category_id           | integer    | NOT NULL            |
-| condition_id          | integer    | NOT NULL            |
-| shipping_fee_id       | integer    | NOT NULL            |
-| prefecture_id         | integer    | NOT NULL            |
-| shipping_days_id      | integer    | NOT NULL            |
-| price                 | integer    | NOT NULL            |
-| user                  | references | NOT NULL,外部キー    |
+| name                  | string     | null: false         |
+| description           | text       | null: false         |
+| category_id           | integer    | null: false         |
+| condition_id          | integer    | null: false         |
+| shipping_fee_id       | integer    | null: false         |
+| prefecture_id         | integer    | null: false         |
+| shipping_day_id       | integer    | null: false         |
+| price                 | integer    | null: false         |
+| user                  | references | null: false,外部キー |
 
 
 ### Association
@@ -44,18 +44,11 @@
 
 |Column                 | Type       | Options             |
 | --------------------- | ---------- | ------------------- |
-| user                  | references | NOT NULL,外部キー    |
-| item                  | references | NOT NULL,外部キー    |
-| address               | references | NOT NULL,外部キー    |
-| payment_method_id     | integer    | NOT NULL            |
-| payment_method_id     | string     | NOT NULL            |
-| paid_at               | datetime   | NOT NULL            |
-| shipped_at            | datetime   | NOT NULL            |
-| delivered_at          | datetime   | NOT NULL            |
-
+| user                  | references | null: false,外部キー |
+| item                  | references | null: false,外部キー |
 
 ### Association
-
+- belongs_to :user
 - belongs_to :item
 - has_one :address
 
@@ -64,14 +57,14 @@
 
 |Column                 | Type       | Options             |
 | --------------------- | ---------- | ------------------- |
-| postal_code           | string     | NOT NULL            |
-| prefecture_id         | integer    | NOT NULL            |
-| city                  | string     | NOT NULL            |
-| street_address        | string     | NOT NULL            |
+| postal_code           | string     | null: false         |
+| prefecture_id         | integer    | null: false         |
+| city                  | string     | null: false         |
+| street_address        | string     | null: false         |
 | building_name         | string     |                     |
-| phone_number          | string     | NOT NULL            |
-| order                 | references | NOT NULL,外部キー    |
+| phone_number          | string     | null: false         |
+| order                 | references | null: false,外部キー |
 
 ### Association
 
-- belongs_to :oder
+- belongs_to :order
