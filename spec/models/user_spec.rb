@@ -55,6 +55,12 @@ RSpec.describe User, type: :model do
           @user.valid?
           expect(@user.errors.full_messages).to include("Password can't be blank")
         end
+
+        it '誕生日が空だと無効' do
+          @user.birth_date = nil
+          @user.valid?
+          expect(@user.errors.full_messages).to include("Birth date can't be blank")
+        end
       end
 
       context 'フォーマットが不正な場合' do
@@ -98,6 +104,13 @@ RSpec.describe User, type: :model do
         it 'passwordが英数字混合でないと無効 (英字のみ)' do
           @user.password = 'abcdef'
           @user.password_confirmation = 'abcdef'
+          @user.valid?
+          expect(@user.errors.full_messages).to include('Password は英数字を両方含める必要があります')
+        end
+
+        it 'passwordに半角英数字以外が含まれていると無効 (記号を含む)' do
+          @user.password = 'Password!123'
+          @user.password_confirmation = 'Password!123'
           @user.valid?
           expect(@user.errors.full_messages).to include('Password は英数字を両方含める必要があります')
         end
