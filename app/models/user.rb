@@ -25,5 +25,5 @@ class User < ApplicationRecord
   validates :password, format: {
     with: /\A(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]+\z/,
     message: 'は英数字を両方含める必要があります'
-  }, if: -> { password.present? }
+  }
 end
