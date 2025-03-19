@@ -22,4 +22,3 @@ validates :shipping_fee_id, numericality: { other_than: 1, message: "を選択�
 validates :prefecture_id, numericality: { other_than: 1, message: "を選択してください" }
 validates :shipping_days_id, numericality: { other_than: 1, message: "を選択してください" }
 end
-end
