@@ -12,14 +12,11 @@ class Item < ApplicationRecord
   validates :name, presence: true
   validates :description, presence: true
   validates :price, presence: true,
-                    numericality: { only_integer: true, greater_than_or_equal_to: 300, less_than_or_equal_to: 9_999_999 }
+                    numericality: { only_integer: true, greater_than_or_equal_to: 300, less_than_or_equal_to: 9_999_999, message: "must be a number between 300 and 9,999,999" }
   validates :image, presence: true
-
-  # ActiveHashのバリデーション（id: 1 は選択不可）
-
-  validates :category_id, numericality: { other_than: 1, message: 'を選択してください' }
-  validates :condition_id, numericality: { other_than: 1, message: 'を選択してください' }
-  validates :shipping_fee_id, numericality: { other_than: 1, message: 'を選択してください' }
-  validates :prefecture_id, numericality: { other_than: 1, message: 'を選択してください' }
-  validates :shipping_days_id, numericality: { other_than: 1, message: 'を選択してください' }
+  validates :category_id, presence: true, numericality: { other_than: 1, message: 'を選択してください' }
+  validates :condition_id, presence: true, numericality: { other_than: 1, message: 'を選択してください' }
+  validates :shipping_fee_id, presence: true, numericality: { other_than: 1, message: 'を選択してください' }
+  validates :prefecture_id, presence: true, numericality: { other_than: 1, message: 'を選択してください' }
+  validates :shipping_days_id, presence: true, numericality: { other_than: 1, message: 'を選択してください' }
 end
