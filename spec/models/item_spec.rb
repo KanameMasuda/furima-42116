@@ -1,23 +1,32 @@
 require 'rails_helper'
 
 RSpec.describe Item, type: :model do
+  before do
+    @user = FactoryBot.create(:user)  # ユーザーを作成
+    @item = FactoryBot.build(:item, user: @user)
+  end
+
   # 正常系のテスト
   context '正常系: 新規登録できる場合' do
-    before do
-      @item = FactoryBot.build(:item)  # FactoryBotでItemを作成
-    end
-
     it '全ての項目が正しく入力されていれば登録できる' do
       expect(@item).to be_valid
+    end
+
+    it '商品にはユーザー情報が紐づいていること' do
+      expect(@item.user).to eq(@user)  # 商品がユーザーと紐づいていることを確認
     end
   end
 
   # 異常系のテスト
   context '異常系: 登録できない場合' do
-    before do
-      @item = FactoryBot.build(:item)
+    context 'ユーザー情報が紐づいていない場合' do
+      it '商品にユーザーが紐づいていないと無効であること' do
+        @item.user = nil
+        @item.valid?
+        expect(@item.errors.full_messages).to include("User must exist")  # Userが必須であることを確認
+      end
     end
-
+    
     context '必須項目が空の場合' do
       it 'nameが空だと無効であること' do
         @item.name = nil
@@ -121,12 +130,8 @@ RSpec.describe Item, type: :model do
     end
   end
 
-    # 価格のバリデーションに関するテスト
+  # 価格のバリデーションに関するテスト
   describe '価格のバリデーション' do
-    before do
-      @item = FactoryBot.build(:item, price: 1000)
-    end
-
     context '価格が半角数値のみである場合' do
       it '価格が半角数値であれば保存できること' do
         @item.price = 1000 # 半角数値
