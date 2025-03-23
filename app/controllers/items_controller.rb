@@ -20,7 +20,7 @@ class ItemsController < ApplicationController
   end
 
   def show
-    @item = Item.find(params[:id])  # IDに基づいて商品を取得
+    @item = Item.find(params[:id]) # IDに基づいて商品を取得
   end
 
   private
