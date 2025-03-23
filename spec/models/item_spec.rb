@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Item, type: :model do
   before do
-    @user = FactoryBot.create(:user)  # ユーザーを作成
+    @user = FactoryBot.create(:user) # ユーザーを作成
     @item = FactoryBot.build(:item, user: @user)
   end
 
@@ -13,7 +13,7 @@ RSpec.describe Item, type: :model do
     end
 
     it '商品にはユーザー情報が紐づいていること' do
-      expect(@item.user).to eq(@user)  # 商品がユーザーと紐づいていることを確認
+      expect(@item.user).to eq(@user) # 商品がユーザーと紐づいていることを確認
     end
   end
 
@@ -23,10 +23,10 @@ RSpec.describe Item, type: :model do
       it '商品にユーザーが紐づいていないと無効であること' do
         @item.user = nil
         @item.valid?
-        expect(@item.errors.full_messages).to include("User must exist")  # Userが必須であることを確認
+        expect(@item.errors.full_messages).to include('User must exist') # Userが必須であることを確認
       end
     end
-    
+
     context '必須項目が空の場合' do
       it 'nameが空だと無効であること' do
         @item.name = nil
@@ -87,45 +87,45 @@ RSpec.describe Item, type: :model do
       it '価格が300未満だと無効であること' do
         @item.price = 299
         @item.valid?
-        expect(@item.errors.full_messages).to include("Price must be a number between 300 and 9,999,999")
+        expect(@item.errors.full_messages).to include('Price must be a number between 300 and 9,999,999')
       end
 
       it '価格が9,999,999を超えると無効であること' do
         @item.price = 10_000_000
         @item.valid?
-        expect(@item.errors.full_messages).to include("Price must be a number between 300 and 9,999,999")
+        expect(@item.errors.full_messages).to include('Price must be a number between 300 and 9,999,999')
       end
     end
 
     context '選択肢が無効な場合' do
       it 'category_idが無効な場合、無効であること' do
-        @item.category_id = 1  # 無効なID
+        @item.category_id = 1 # 無効なID
         @item.valid?
-        expect(@item.errors.full_messages).to include("Category を選択してください")
+        expect(@item.errors.full_messages).to include('Category を選択してください')
       end
 
       it 'condition_idが無効な場合、無効であること' do
-        @item.condition_id = 1  # 無効なID
+        @item.condition_id = 1 # 無効なID
         @item.valid?
-        expect(@item.errors.full_messages).to include("Condition を選択してください")
+        expect(@item.errors.full_messages).to include('Condition を選択してください')
       end
 
       it 'shipping_fee_idが無効な場合、無効であること' do
-        @item.shipping_fee_id = 1  # 無効なID
+        @item.shipping_fee_id = 1 # 無効なID
         @item.valid?
-        expect(@item.errors.full_messages).to include("Shipping fee を選択してください")
+        expect(@item.errors.full_messages).to include('Shipping fee を選択してください')
       end
 
       it 'prefecture_idが無効な場合、無効であること' do
-        @item.prefecture_id = 1  # 無効なID
+        @item.prefecture_id = 1 # 無効なID
         @item.valid?
-        expect(@item.errors.full_messages).to include("Prefecture を選択してください")
+        expect(@item.errors.full_messages).to include('Prefecture を選択してください')
       end
 
       it 'shipping_days_idが無効な場合、無効であること' do
-        @item.shipping_days_id = 1  # 無効なID
+        @item.shipping_days_id = 1 # 無効なID
         @item.valid?
-        expect(@item.errors.full_messages).to include("Shipping days を選択してください")
+        expect(@item.errors.full_messages).to include('Shipping days を選択してください')
       end
     end
   end
