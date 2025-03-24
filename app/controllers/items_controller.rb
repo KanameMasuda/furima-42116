@@ -1,5 +1,6 @@
 class ItemsController < ApplicationController
   before_action :authenticate_user!, only: [:new, :create]
+  before_action :set_item, only: [:show, :edit]
 
   def index
     @items = Item.includes(:user).order(created_at: :desc)
@@ -20,10 +21,16 @@ class ItemsController < ApplicationController
   end
 
   def show
-    @item = Item.find(params[:id]) # IDに基づいて商品を取得
+  end
+
+  def edit
   end
 
   private
+
+  def set_item
+    @item = Item.find(params[:id])
+  end
 
   def item_params
     params.require(:item).permit(:name, :description, :price, :category_id, :condition_id, :shipping_fee_id, :prefecture_id,
