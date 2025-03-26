@@ -12,9 +12,9 @@ class OrderAddress
     validates :addresses
     validates :phone_number
     validates :token
+    validates :postal_code, format: { with: /\A\d{3}-\d{4}\z/, message: "is invalid. Include hyphen(-)" }
+    validates :phone_number, format: { with: /\A\d{10,11}\z/, message: "is invalid. Input only numbers." }
   end
-  validates :postal_code, presence: true, format: { with: /\A\d{3}-\d{4}\z/, message: "is invalid. Include hyphen(-)" }
-  validates :phone_number, presence: true, format: { with: /\A\d{10,11}\z/, message: "is invalid. Input only numbers." }
 
   def save
     order = Order.create(user_id: user_id, item_id: item_id)
