@@ -7,6 +7,8 @@ class OrdersController < ApplicationController
 
   def create
     @order_address = OrderAddress.new(order_params)
+    @order_address.user_id = current_user.id
+    @order_address.item_id = params[:item_id]
     if @order_address.valid?
       @order_address.save
       redirect_to root_path
@@ -17,7 +19,6 @@ class OrdersController < ApplicationController
 
   private
 
-  # 共通の処理をまとめたset_itemメソッド
   def set_item
     @item = Item.find(params[:item_id])
   end
@@ -25,7 +26,8 @@ class OrdersController < ApplicationController
   def order_params
     params.require(:order_address).permit(
       :user_id, :item_id, :postal_code, :prefecture_id, 
-      :city, :house_number, :phone_number
+      :city, :addresses, :building, :phone_number, :token
     )
   end
+
 end
