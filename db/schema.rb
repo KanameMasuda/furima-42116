@@ -61,6 +61,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_03_26_025835) do
     t.integer "shipping_fee_id", null: false
     t.integer "prefecture_id", null: false
     t.integer "shipping_days_id", null: false
+    t.boolean "sold_out", default: false, null: false
     t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

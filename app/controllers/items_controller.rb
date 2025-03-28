@@ -48,13 +48,12 @@ class ItemsController < ApplicationController
 
   def item_params
     params.require(:item).permit(:name, :description, :price, :category_id, :condition_id, :shipping_fee_id, :prefecture_id,
-                                 :shipping_days_id, :image).merge(user_id: current_user.id)
+                                 :shipping_days_id, :image, :sold_out).merge(user_id: current_user.id)
   end
 
   def move_to_index
-    if current_user != @item.user
+    return unless current_user != @item.user
 
     redirect_to root_path
-    end
   end
 end
