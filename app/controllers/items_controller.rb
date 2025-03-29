@@ -60,7 +60,7 @@ class ItemsController < ApplicationController
 
   def redirect_if_not_authorized
     if @item.sold_out? || current_user.id != @item.user_id
-      redirect_to root_path, alert: "この商品は編集できません。"
+      redirect_to root_path
     end
   end
   
