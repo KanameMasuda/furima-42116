@@ -1,0 +1,40 @@
+const pay = () => {
+  const publicKey = gon.public_key
+  const payjp = Payjp(publicKey) // PAY.JPテスト公開鍵
+  const elements = payjp.elements();
+  const numberElement = elements.create('cardNumber');
+  const expiryElement = elements.create('cardExpiry');
+  const cvcElement = elements.create('cardCvc');
+
+  numberElement.mount('#number-form');
+  expiryElement.mount('#expiry-form');
+  cvcElement.mount('#cvc-form');
+
+  const form = document.getElementById('charge-form');
+form.addEventListener("submit", (e) => {
+  e.preventDefault();
+
+  // フォーム送信ボタンを無効化
+  e.target.querySelector("input[type='submit']").disabled = true;
+
+  payjp.createToken(numberElement).then(function (response) {
+    if (response.error) {
+      // エラーハンドリング
+    } else {
+      const token = response.id;
+      const renderDom = document.getElementById("charge-form");
+      const tokenObj = `<input value="${token}" name='token' type="hidden">`;
+      renderDom.insertAdjacentHTML("beforeend", tokenObj);
+
+      // フォームの送信を再度行う
+      document.getElementById("charge-form").submit();
+    }
+    numberElement.clear();
+    expiryElement.clear();
+    cvcElement.clear();
+  });
+});
+};
+
+window.addEventListener("turbo:load", pay);
+window.addEventListener("turbo:render", pay);

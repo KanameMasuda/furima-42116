@@ -2,6 +2,7 @@ class ItemsController < ApplicationController
   before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy]
   before_action :set_item, only: [:show, :edit, :update, :destroy]
   before_action :move_to_index, except: [:index, :show, :new, :create]
+  before_action :redirect_if_not_authorized, only: [:edit, :update]
 
   def index
     @items = Item.includes(:user).order(created_at: :desc)
@@ -48,13 +49,19 @@ class ItemsController < ApplicationController
 
   def item_params
     params.require(:item).permit(:name, :description, :price, :category_id, :condition_id, :shipping_fee_id, :prefecture_id,
-                                 :shipping_days_id, :image).merge(user_id: current_user.id)
+                                 :shipping_days_id, :image, :sold_out).merge(user_id: current_user.id)
   end
 
   def move_to_index
-    if current_user != @item.user
+    return unless current_user != @item.user
 
     redirect_to root_path
+  end
+
+  def redirect_if_not_authorized
+    if @item.sold_out? || current_user.id != @item.user_id
+      redirect_to root_path
     end
   end
+  
 end
