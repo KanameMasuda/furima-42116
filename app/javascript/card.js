@@ -10,23 +10,30 @@ const pay = () => {
   expiryElement.mount('#expiry-form');
   cvcElement.mount('#cvc-form');
 
-  const form = document.getElementById('charge-form')
-  form.addEventListener("submit", (e) => {
-    payjp.createToken(numberElement).then(function (response) {
-      if (response.error) {
-      } else {
-        const token = response.id;
-        const renderDom = document.getElementById("charge-form");
-        const tokenObj = `<input value=${token} name='token' type="hidden">`;
-        renderDom.insertAdjacentHTML("beforeend", tokenObj);
-      }
-      numberElement.clear();
-      expiryElement.clear();
-      cvcElement.clear();
+  const form = document.getElementById('charge-form');
+form.addEventListener("submit", (e) => {
+  e.preventDefault();
+
+  // フォーム送信ボタンを無効化
+  e.target.querySelector("input[type='submit']").disabled = true;
+
+  payjp.createToken(numberElement).then(function (response) {
+    if (response.error) {
+      // エラーハンドリング
+    } else {
+      const token = response.id;
+      const renderDom = document.getElementById("charge-form");
+      const tokenObj = `<input value="${token}" name='token' type="hidden">`;
+      renderDom.insertAdjacentHTML("beforeend", tokenObj);
+
+      // フォームの送信を再度行う
       document.getElementById("charge-form").submit();
-    });
-    e.preventDefault();
+    }
+    numberElement.clear();
+    expiryElement.clear();
+    cvcElement.clear();
   });
+});
 };
 
 window.addEventListener("turbo:load", pay);
