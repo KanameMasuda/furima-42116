@@ -1,6 +1,6 @@
 class OrdersController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_item, only: [:index, :create] # 共通の処理としてset_itemを呼び出す
+  before_action :set_item, only: [:index, :create] 
   before_action :redirect_if_sold_out, only: [:index, :create]
 
   def index
@@ -10,7 +10,6 @@ class OrdersController < ApplicationController
   end
 
   def create
-    @item = Item.find(params[:item_id]) # 商品情報を取得
     @order_address = OrderAddress.new(order_params)
     @order_address.user_id = current_user.id
     @order_address.item_id = params[:item_id]

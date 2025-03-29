@@ -1,6 +1,7 @@
 class Item < ApplicationRecord
   belongs_to :user
   has_one_attached :image # 画像保存
+  has_one :order
   before_validation :set_default_sold_out
 
   extend ActiveHash::Associations::ActiveRecordExtensions
