@@ -23,6 +23,11 @@ class Item < ApplicationRecord
   validates :prefecture_id, presence: true, numericality: { other_than: 1, message: 'を選択してください' }
   validates :shipping_days_id, presence: true, numericality: { other_than: 1, message: 'を選択してください' }
 
+  def sold_out?
+    order.present? # 注文情報があれば売り切れ
+  end
+
+
   private
 
   def set_default_sold_out
