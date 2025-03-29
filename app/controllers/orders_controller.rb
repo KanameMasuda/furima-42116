@@ -58,7 +58,4 @@ class OrdersController < ApplicationController
     )
   end
 
-  def mark_item_as_sold
-    @item.update(sold_out: true)
-  end
 end
